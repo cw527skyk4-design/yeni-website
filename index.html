@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="ivory" data-mode="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Av. Arb. Selim Yalçın · Hukuk & Arabuluculuk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Inter:wght@300..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React + Babel -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <!-- Data + Calc engine (plain JS) -->
+  <script src="data.js"></script>
+  <script src="calc.js"></script>
+
+  <!-- React app pieces -->
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="shell.jsx"></script>
+  <script type="text/babel" src="pages-1.jsx"></script>
+  <script type="text/babel" src="pages-2.jsx"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect, useMemo } = React;
+
+    function App() {
+      const [tweaks, setTweak] = useTweaks(THEME_DEFAULTS);
+      const [lang, setLang] = useLang();
+      const [toast, setToast] = useState('');
+      const path = useHashRoute();
+
+      useEffect(() => { applyTheme(tweaks.theme, tweaks.mode); }, [tweaks.theme, tweaks.mode]);
+
+      // route -> page
+      const segment = path.replace(/^\//, '').split('/')[0] || '';
+      let Page;
+      if (!segment) Page = HomePage;
+      else if (segment === 'ozgecmis') Page = CVPage;
+      else if (segment === 'arabuluculuk') Page = MediationPage;
+      else if (segment === 'avukatlik') Page = LawPage;
+      else if (segment === 'ucret-hesaplama') Page = CalcPage;
+      else if (segment === 'uygulamalar') Page = AppsPage;
+      else if (segment === 'blog') Page = BlogPage;
+      else if (segment === 'iletisim') Page = ContactPage;
+      else Page = HomePage;
+
+      return (
+        <>
+          <Header
+            lang={lang} setLang={setLang}
+            theme={tweaks.theme} mode={tweaks.mode}
+            setTheme={(v) => setTweak('theme', v)}
+            setMode={(v) => setTweak('mode', v)}
+          />
+          <main>
+            <Page lang={lang} showToast={setToast} />
+          </main>
+          <Footer lang={lang} />
+          <Toast msg={toast} onDone={() => setToast('')} />
+
+          <TweaksPanel title="Tweaks">
+            <TweakSection label={lang === 'tr' ? 'Tema' : 'Theme'} />
+            <TweakRadio label={lang === 'tr' ? 'Renk paleti' : 'Palette'}
+              value={tweaks.theme}
+              options={[
+                { value: 'ivory', label: 'Ivory · Editorial' },
+                { value: 'mono', label: 'Mono · Architectural' },
+                { value: 'navy', label: 'Navy · Classical' },
+              ]}
+              onChange={(v) => setTweak('theme', v)} />
+            <TweakRadio label={lang === 'tr' ? 'Mod' : 'Mode'}
+              value={tweaks.mode}
+              options={[
+                { value: 'light', label: lang === 'tr' ? 'Açık' : 'Light' },
+                { value: 'dark', label: lang === 'tr' ? 'Koyu' : 'Dark' },
+              ]}
+              onChange={(v) => setTweak('mode', v)} />
+            <TweakSection label={lang === 'tr' ? 'Dil' : 'Language'} />
+            <TweakRadio label={lang === 'tr' ? 'Sitenin dili' : 'Site language'}
+              value={lang}
+              options={[
+                { value: 'tr', label: 'Türkçe' },
+                { value: 'en', label: 'English' },
+              ]}
+              onChange={(v) => setLang(v)} />
+          </TweaksPanel>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
