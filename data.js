@@ -224,7 +224,7 @@ window.T = {
     // Contact
     ctc_eyebrow: "İletişim",
     ctc_title: "Bize Ulaşın",
-    ctc_lede: "Hukuki sorununuz için ücretsiz ön görüşme talep edebilirsiniz. Aynı gün dönüş yapıyoruz.",
+    ctc_lede: "Hukuki sorununuz için ön görüşme talep edebilirsiniz. Aynı gün dönüş yapıyoruz.",
     ctc_office: "Ofis",
     ctc_email: "E-posta",
     ctc_ig: "Instagram",
@@ -429,7 +429,7 @@ window.T = {
 
     ctc_eyebrow: "Contact",
     ctc_title: "Get in touch",
-    ctc_lede: "Request a free initial consultation. We respond the same day.",
+    ctc_lede: "Request an initial consultation. We respond the same day.",
     ctc_office: "Office", ctc_email: "Email", ctc_ig: "Instagram", ctc_hours: "Hours",
     ctc_form_h: "Consultation Request", ctc_form_sub: "Information is kept confidential under data-protection law.",
     ctc_name: "Full name", ctc_phone: "Phone", ctc_emailf: "Email", ctc_subject: "Subject", ctc_message: "Message",
