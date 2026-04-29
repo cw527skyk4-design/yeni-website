@@ -650,3 +650,133 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.06em;
 }
 .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+/* =====================================================
+   ========== Mobile responsive pass ==================
+   Pure additive — desktop layout unchanged.
+   Targets phones (<= 720px) primarily; small tablet
+   adjustments where overflow risks exist.
+   ===================================================== */
+
+/* prevent any rogue horizontal scroll */
+html, body { overflow-x: hidden; max-width: 100%; }
+body { -webkit-text-size-adjust: 100%; }
+
+/* break long words/urls instead of forcing horizontal scroll */
+.h-display, .lede, .hero-name, .editorial-list .ttl,
+.note-card h3, .calc-block h3,
+.process-grid .step h4, .quote {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* allow grid/flex children to shrink below intrinsic size */
+.wrap > *, .calc-grid > *, .grid-2 > *, .grid-3 > *,
+.hero-foot > *, .site-footer .grid > *, .editorial-list .row > *,
+.process-grid .step > * {
+  min-width: 0;
+}
+
+/* tablet & below */
+@media (max-width: 900px) {
+  .hero { padding: 56px 0 48px; }
+  .hero-name { font-size: clamp(44px, 14vw, 110px); line-height: 1; }
+  .hero-foot { padding-top: 36px; }
+  .hero-quote, .quote { font-size: clamp(28px, 5.6vw, 44px); }
+  .result-card .head { padding: 22px; }
+  .result-card .head .amt { font-size: clamp(28px, 7.5vw, 40px); }
+  .result-card .scenarios { padding: 6px 22px; }
+  .result-card .explain { padding: 22px; }
+  .editorial-list .ttl { font-size: 22px; }
+}
+
+/* phones */
+@media (max-width: 720px) {
+  /* layout / wrap */
+  .wrap { padding: 0 16px; }
+
+  /* sticky header */
+  .site-header .wrap { gap: 12px; height: 64px; }
+  .brand { font-size: 16px; gap: 10px; }
+  .brand-name { font-size: 16px; }
+  .brand-tag { font-size: 9px; }
+  .brand .brand-mark { width: 28px; height: 28px; font-size: 10px; }
+  .header-tools { gap: 4px; }
+  .icon-btn { width: 34px; height: 34px; }
+  .lang-toggle button { padding: 6px 8px; font-size: 10px; }
+  .mobile-nav a { padding: 14px 16px; }
+
+  /* sections */
+  .section { padding: 56px 0; }
+  .section-tight { padding: 44px 0; }
+
+  /* type scale */
+  .h-display { font-size: clamp(34px, 9vw, 56px); }
+  .lede { font-size: 17px; }
+
+  /* hero */
+  .hero-name { font-size: clamp(40px, 13.5vw, 88px); letter-spacing: -0.03em; }
+  .hero-meta {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+    padding-bottom: 28px;
+  }
+  .hero-meta .meta-center, .hero-meta .meta-right { text-align: left; }
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .hero-cta .btn { width: 100%; justify-content: center; }
+
+  /* editorial list rows */
+  .editorial-list .row {
+    grid-template-columns: 1fr !important;
+    gap: 8px;
+    padding: 22px 0;
+  }
+  .editorial-list .num { font-size: 11px; }
+  .editorial-list .ttl { font-size: 20px; }
+  .editorial-list .desc { grid-column: 1; }
+  .editorial-list .arrow-r { display: none; }
+  .editorial-list a.row:hover { padding-left: 0; }
+
+  /* note cards / process / grid utilities */
+  .grid-2, .grid-3 { gap: 24px; }
+  .process-grid .step .n { font-size: 48px; }
+  .process-grid .step h4 { font-size: 19px; }
+
+  /* calculator */
+  .calc-grid { gap: 28px; }
+  .option-grid.cols-2,
+  .option-grid.cols-4 { grid-template-columns: 1fr 1fr; }
+  .option { padding: 12px 14px; font-size: 13px; }
+  .result-card .head { padding: 20px; }
+  .result-card .head .amt { font-size: clamp(26px, 8.5vw, 36px); }
+  .result-card .scenarios { padding: 4px 20px; }
+  .result-card .scenario .grid { grid-template-columns: 1fr auto; column-gap: 12px; }
+  .result-card .scenario .name { font-size: 12.5px; }
+  .result-card .explain { padding: 20px; font-size: 12.5px; }
+
+  /* form fields */
+  .field input, .field select, .field textarea { font-size: 16px; padding: 10px 0; }
+
+  /* footer */
+  .site-footer .grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+  .site-footer .colophon { flex-direction: column; align-items: flex-start; gap: 10px; }
+
+  /* TOC: stop sticking on mobile, render inline */
+  .toc { position: static !important; top: auto; }
+  .toc ol { display: flex; flex-wrap: wrap; gap: 6px; }
+  .toc li { border-left: 0; border: 1px solid var(--rule); padding: 6px 10px; font-size: 10px; }
+
+  /* tweaks panel & toast: keep on screen */
+  .toast { left: 16px; right: 16px; transform: translateY(120%); width: auto; max-width: none; }
+  .toast.show { transform: translateY(0); }
+}
+
+/* tiny phones */
+@media (max-width: 420px) {
+  .hero-name { font-size: clamp(36px, 13vw, 64px); }
+  .h-display { font-size: clamp(30px, 9vw, 44px); }
+  .site-footer .grid { grid-template-columns: 1fr; }
+  .option-grid.cols-2, .option-grid.cols-4 { grid-template-columns: 1fr; }
+  .result-card .head .amt { font-size: 28px; }
+}
